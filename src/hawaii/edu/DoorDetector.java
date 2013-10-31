@@ -28,23 +28,25 @@ public class DoorDetector {
 	 * @param filename The name of the image file.
 	 */
 	public DoorDetector(String filename) {
-		// Read in the image.
 		try {
+			// Read in the image.
 			this.img = ImageIO.read(new File(filename));
+			
+			// Transform the image into a grayscale image.
+			for (int i=0; i < this.img.getWidth(); i++) {
+				for (int j=0; j < this.img.getHeight(); j++) {
+					int rgb = this.img.getRGB(i, j);
+					int r = (rgb >> 16) & 0xFF;
+					int g = (rgb >> 8) & 0xFF;
+					int b = (rgb & 0xFF);
+					int gray = (r + g + b) / 3;
+					this.img.setRGB(i, j, new Color(gray, gray, gray).getRGB());
+				}
+			}
 		} catch (IOException e) {
-			System.out.println("error opening " + filename);
+			System.out.println("Error reading " + filename);
 		}
 		
-		// Transform the image into a grayscale image.
-		for (int i=0; i < this.img.getWidth(); i++) {
-			for (int j=0; j < this.img.getHeight(); j++) {
-				int rgb = this.img.getRGB(i, j);
-				int r = (rgb >> 16) & 0xFF;
-				int g = (rgb >> 8) & 0xFF;
-				int b = (rgb & 0xFF);
-				int gray = (r + g + b) / 3;
-				this.img.setRGB(i, j, new Color(gray, gray, gray).getRGB());
-			}
-		}
+		
 	}
 }
