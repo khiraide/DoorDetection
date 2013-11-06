@@ -49,4 +49,8 @@ public class DoorDetector {
 		
 		
 	}
+	
+	public BufferedImage getImage() {
+		return img;
+	}
 }
